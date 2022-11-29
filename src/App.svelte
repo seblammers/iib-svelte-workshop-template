@@ -1,65 +1,27 @@
 <script>
-  import Example from "./lib/Example.svelte";
   import data from "./data/data.json";
   console.log(data);
+
+  import { scaleLinear, scaleTime } from "d3-scale";
+
+  let height = 400;
+
+  const yScale = scaleLinear()
+    .domain([0, 100]) // INPUT
+    .range([height, 0]); // OUTPUT
+
+  let width = 400;
+
+  let minDate = new Date("2020/06/01");
+  let maxDate = new Date("2020/11/03");
+  const xScale = scaleTime()
+    .domain([minDate, maxDate]) // INPUT
+    .range([0, width]); // OUTPUT
+
+  import Line from "./lib/Line.svelte";
 </script>
 
-<main>
-  <h1>Let's make a chart 😎</h1>
-  <h2>
-    Get started by deleting all of the contents in <pre>App.svelte</pre>
-    🗑
-  </h2>
-  <Example />
-  <footer>
-    For help, <a
-      href="https://twitter.com/CL_Rothschild"
-      target="_blank"
-      rel="noopener noreferrer">DM Connor on Twitter ✉️</a
-    >
-  </footer>
-</main>
-
-<style>
-  main {
-    text-align: center;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: #f0f0f0;
-  }
-
-  h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    font-weight: 700;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 2rem;
-    line-height: 1.5;
-  }
-
-  pre {
-    padding: 1px 6px;
-    display: inline;
-    margin: 0;
-    background: #ffb7a0;
-    border-radius: 3px;
-  }
-
-  a {
-    color: #ff3e00;
-    text-decoration: inherit;
-  }
-
-  footer {
-    font-size: 1rem;
-    color: #333;
-  }
-</style>
+<svg {width} {height}>
+  <Line {xScale} {yScale} data={data.Biden} color="blue" />
+  <Line {xScale} {yScale} data={data.Trump} color="red" />
+</svg>
